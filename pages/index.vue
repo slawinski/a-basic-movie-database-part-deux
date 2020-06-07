@@ -8,18 +8,24 @@
       <h2 class="subtitle">
         My outstanding Nuxt.js project
       </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
+      <form class="links">
+        <input
+          v-model="lookupMovie"
+          type="text"
+          class="py-1 px-3 shadow appearance-none border rounded font-body text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Enter movie title"
+          aria-label="Movie title"
+          required
+        />
+        <button
+          type="submit"
+          class="ml-4 py-1 px-2 bg-transparent hover:bg-button text-button text-xl sm:text-2xl font-sans font-bold hover:text-white border border-button hover:border-transparent rounded"
+          @click.prevent="submit"
+          @keydown="submit"
         >
-          GitHub
-        </a>
-      </div>
+          Submit
+        </button>
+      </form>
     </div>
   </div>
 </template>
