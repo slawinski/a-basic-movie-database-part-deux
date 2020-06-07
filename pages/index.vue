@@ -32,11 +32,24 @@
 
 <script>
 import axios from 'axios';
+import gql from 'graphql-tag';
 import Logo from '~/components/Logo.vue';
 
 export default {
   components: {
     Logo,
+  },
+  apollo: {
+    movies: gql`
+      query MyQuery {
+        movies {
+          id
+          title
+          genre
+          year
+        }
+      }
+    `,
   },
   data() {
     return {
