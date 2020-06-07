@@ -31,13 +31,31 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import axios from 'axios';
+import Logo from '~/components/Logo.vue';
 
 export default {
   components: {
-    Logo
-  }
-}
+    Logo,
+  },
+  data() {
+    return {
+      lookupMovie: null,
+      fetchedMovie: null,
+    };
+  },
+  methods: {
+    async submit() {
+      try {
+        this.fetchedMovie = await axios.get(
+          `https://www.omdbapi.com/?apikey=869369bc&t=${this.lookupMovie}`,
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    },
+  },
+};
 </script>
 
 <style>
