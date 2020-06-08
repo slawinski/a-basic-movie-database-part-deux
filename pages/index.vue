@@ -1,14 +1,14 @@
 <template>
-  <div class="container">
+  <div>
     <div>
-      <logo />
-      <h1 class="title">
+      <h1>
         a-basic-movie-database-part-deux
       </h1>
-      <h2 class="subtitle">
-        My outstanding Nuxt.js project
-      </h2>
-      <form class="links">
+      <p>all movies</p>
+      <div v-for="movie in movies" :key="movie.id">
+        {{ movie.title }}
+      </div>
+      <form>
         <input
           v-model="lookupMovie"
           type="text"
@@ -33,20 +33,14 @@
 <script>
 import axios from 'axios';
 import gql from 'graphql-tag';
-import Logo from '~/components/Logo.vue';
 
 export default {
-  components: {
-    Logo,
-  },
   apollo: {
     movies: gql`
-      query MyQuery {
+      query getMovies {
         movies {
           id
           title
-          genre
-          year
         }
       }
     `,
@@ -59,52 +53,30 @@ export default {
   },
   methods: {
     async submit() {
+      let result = null;
       try {
-        this.fetchedMovie = await axios.get(
+        result = await axios.get(
           `https://www.omdbapi.com/?apikey=869369bc&t=${this.lookupMovie}`,
         );
       } catch (err) {
         console.error(err);
+      } finally {
+        this.fetchedMovie = result;
+        await this.$apollo.mutate({
+          mutation: gql`
+            mutation addMovie($movie: movies_insert_input!) {
+              insert_movies_one(object: $movie) {
+                id
+                title
+              }
+            }
+          `,
+          variables: {
+            movie: { title: this.fetchedMovie.data.Title },
+          },
+        });
       }
     },
   },
 };
 </script>
-
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
-</style>
