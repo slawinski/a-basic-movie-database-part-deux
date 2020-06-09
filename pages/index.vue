@@ -7,6 +7,7 @@
       <p class="font-bold">movie list:</p>
       <div v-for="movie in movies" :key="movie.id">
         {{ movie.title }}
+        <span @click.prevent="remove(movie)" @keydown="remove(movie)">❌</span>
       </div>
       <form>
         <input
@@ -71,6 +72,20 @@ export default {
     };
   },
   methods: {
+    remove(movie) {
+      this.$apollo.mutate({
+        mutation: gql`
+          mutation MyQuery($id: uuid!) {
+            delete_movies(where: { id: { _eq: $id } }) {
+              affected_rows
+            }
+          }
+        `,
+        variables: {
+          id: movie.id,
+        },
+      });
+    },
     async submit() {
       let result = null;
       try {
