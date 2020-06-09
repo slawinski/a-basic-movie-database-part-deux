@@ -15,8 +15,10 @@
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.1-rc.1",
     "@nuxtjs/axios": "^5.3.6",
+    "apollo-link-ws": "^1.0.20",
     "graphql-tag": "^2.10.3",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "subscriptions-transport-ws": "^0.9.16"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^1.0.0",

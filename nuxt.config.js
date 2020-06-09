@@ -53,6 +53,7 @@ export default {
     clientConfigs: {
       default: {
         httpEndpoint: 'https://hasura-movie-database.herokuapp.com/v1/graphql',
+        wsEndpoint: 'wss://hasura-movie-database.herokuapp.com/v1/graphql',
       },
     },
   },

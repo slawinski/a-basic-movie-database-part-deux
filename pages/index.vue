@@ -1,10 +1,10 @@
 <template>
   <div>
     <div>
-      <h1>
+      <h1 class="text-2xl">
         a-basic-movie-database-part-deux
       </h1>
-      <p>all movies</p>
+      <p class="font-bold">movie list:</p>
       <div v-for="movie in movies" :key="movie.id">
         {{ movie.title }}
       </div>
@@ -19,7 +19,7 @@
         />
         <button
           type="submit"
-          class="ml-4 py-1 px-2 bg-transparent hover:bg-button text-button text-xl sm:text-2xl font-sans font-bold hover:text-white border border-button hover:border-transparent rounded"
+          class="ml-4 py-1 px-2 bg-transparent hover:bg-blue-500 text-button text-xl font-sans font-bold hover:text-white border border-grey-900 hover:border-transparent rounded"
           @click.prevent="submit"
           @keydown="submit"
         >
@@ -36,19 +36,38 @@ import gql from 'graphql-tag';
 
 export default {
   apollo: {
-    movies: gql`
-      query getMovies {
-        movies {
-          id
-          title
+    movies: {
+      query: gql`
+        query getMovies {
+          movies {
+            id
+            title
+          }
         }
-      }
-    `,
+      `,
+      update(data) {
+        return data.movies;
+      },
+      subscribeToMore: {
+        document: gql`
+          subscription mySubscription {
+            movies {
+              id
+              title
+            }
+          }
+        `,
+        updateQuery: (previousResult, { subscriptionData }) => {
+          return subscriptionData.data;
+        },
+      },
+    },
   },
   data() {
     return {
       lookupMovie: null,
       fetchedMovie: null,
+      movies: null,
     };
   },
   methods: {
@@ -61,6 +80,7 @@ export default {
       } catch (err) {
         console.error(err);
       } finally {
+        this.lookupMovie = null;
         this.fetchedMovie = result;
         await this.$apollo.mutate({
           mutation: gql`
