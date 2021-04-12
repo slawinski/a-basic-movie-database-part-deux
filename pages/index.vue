@@ -1,32 +1,22 @@
 <template>
   <div>
     <div>
-      <h1 class="text-2xl">
-        a-basic-movie-database-part-deux
-      </h1>
+      <h1>a-basic-movie-database-part-deux</h1>
       <form>
         <input
           v-model="lookupMovie"
           type="text"
-          class="py-1 px-3 shadow appearance-none border rounded font-body text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="Enter movie title"
           aria-label="Movie title"
           required
         />
-        <button
-          type="submit"
-          class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-          @click.prevent="submit"
-          @keydown="submit"
-        >
+        <button type="submit" @click.prevent="submit" @keydown="submit">
           Submit
         </button>
       </form>
-      <div class="flex flex-wrap">
+      <div>
         <div v-for="movie in movies" :key="movie.id" class="m-4">
-          <div
-            class="w-64 h-full flex flex-col justify-between rounded overflow-hidden shadow-lg"
-          >
+          <div>
             <div>
               <img
                 class="w-full object-cover"
@@ -34,18 +24,12 @@
                 alt="Movie poster"
               />
             </div>
-            <div class="px-6 py-4">
-              <div class="mb-4 font-bold text-xl truncate">
-                {{ movie.title }} ({{ movie.year }})
-              </div>
-              <p class="mb-4 h-32 text-gray-700 text-base overflow-auto">
+            <div>
+              <div>{{ movie.title }} ({{ movie.year }})</div>
+              <p>
                 {{ movie.plot }}
               </p>
-              <button
-                class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
-                @click.prevent="remove(movie)"
-                @keydown="remove(movie)"
-              >
+              <button @click.prevent="remove(movie)" @keydown="remove(movie)">
                 Remove
               </button>
             </div>
