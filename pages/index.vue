@@ -4,20 +4,7 @@
       <SearchBar @input="submit" />
       <div>
         <div v-for="movie in movies" :key="movie.id" class="m-4">
-          <div>
-            <div>
-              <img :src="movie.poster" alt="Movie poster" />
-            </div>
-            <div>
-              <div>{{ movie.title }} ({{ movie.year }})</div>
-              <p>
-                {{ movie.plot }}
-              </p>
-              <button @click.prevent="remove(movie)" @keydown="remove(movie)">
-                Remove
-              </button>
-            </div>
-          </div>
+          <MovieCard :movie="movie" />
         </div>
       </div>
     </div>

@@ -18,6 +18,7 @@
 <script>
 export default {
   name: 'SearchBar',
+  emits: ['input'],
   data() {
     return {
       lookupMovie: null,
