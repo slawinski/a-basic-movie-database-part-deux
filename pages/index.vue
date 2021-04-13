@@ -1,28 +1,12 @@
 <template>
   <div>
     <div>
-      <h1>a-basic-movie-database-part-deux</h1>
-      <form>
-        <input
-          v-model="lookupMovie"
-          type="text"
-          placeholder="Enter movie title"
-          aria-label="Movie title"
-          required
-        />
-        <button type="submit" @click.prevent="submit" @keydown="submit">
-          Submit
-        </button>
-      </form>
+      <SearchBar @input="submit" />
       <div>
         <div v-for="movie in movies" :key="movie.id" class="m-4">
           <div>
             <div>
-              <img
-                class="w-full object-cover"
-                :src="movie.poster"
-                alt="Movie poster"
-              />
+              <img :src="movie.poster" alt="Movie poster" />
             </div>
             <div>
               <div>{{ movie.title }} ({{ movie.year }})</div>
@@ -45,6 +29,7 @@ import axios from 'axios';
 import gql from 'graphql-tag';
 
 export default {
+  name: 'Home',
   apollo: {
     movies: {
       query: gql`
@@ -81,7 +66,6 @@ export default {
   },
   data() {
     return {
-      lookupMovie: null,
       fetchedMovie: null,
       movies: null,
     };
@@ -101,16 +85,16 @@ export default {
         },
       });
     },
-    async submit() {
+    async submit(movie) {
       let result = null;
       try {
         result = await axios.get(
-          `https://www.omdbapi.com/?apikey=869369bc&t=${this.lookupMovie}`,
+          `https://www.omdbapi.com/?apikey=869369bc&t=${movie}`,
         );
       } catch (err) {
         console.error(err);
       } finally {
-        this.lookupMovie = null;
+        movie = null;
         this.fetchedMovie = result;
         await this.$apollo.mutate({
           mutation: gql`
