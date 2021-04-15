@@ -1,12 +1,15 @@
 <template>
   <div>
-    <div>
-      <SearchBar @input="submit" />
-      <div>
-        <div v-for="movie in movies" :key="movie.id" class="m-4">
-          <MovieCard :movie="movie" />
-        </div>
-      </div>
+    <SearchBar @input="submit" />
+    <div class="app__list">
+      <template v-for="movie in movies">
+        <MovieCard
+          :key="movie.id"
+          :movie="movie"
+          class="app__list-item"
+          @remove="remove"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -27,6 +30,7 @@ export default {
             year
             poster
             plot
+            imdbRating
           }
         }
       `,
@@ -42,6 +46,7 @@ export default {
               year
               poster
               plot
+              imdbRating
             }
           }
         `,
@@ -92,6 +97,7 @@ export default {
                 year
                 poster
                 plot
+                imdbRating
               }
             }
           `,
@@ -101,6 +107,7 @@ export default {
               year: this.fetchedMovie.data.Year,
               poster: this.fetchedMovie.data.Poster,
               plot: this.fetchedMovie.data.Plot,
+              imdbRating: this.fetchedMovie.data.imdbRating,
             },
           },
         });
@@ -109,3 +116,13 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.app {
+  &__list {
+    :not(:last-child) {
+      margin-bottom: 8px;
+    }
+  }
+}
+</style>

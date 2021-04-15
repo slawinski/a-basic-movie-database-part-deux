@@ -1,0 +1,39 @@
+$small-width: '640px';
+
+$medium-width: '768px';
+
+$large-width: '1024px';
+
+$xlarge-width: '1280px';
+
+$xxtralarge-width: '1536px';
+
+@mixin sm {
+  @media (min-width: #{$small-width}) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: #{$medium-width}) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: #{$large-width}) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: #{$xxlarge-width}) {
+    @content;
+  }
+}
+
+@mixin xxl {
+  @media (min-width: #{$xxlarge-width}) {
+    @content;
+  }
+}

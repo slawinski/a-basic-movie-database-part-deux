@@ -25,7 +25,7 @@ export default {
     };
   },
   methods: {
-    handleClick(e) {
+    handleClick() {
       this.$emit('input', this.lookupMovie);
     },
   },
