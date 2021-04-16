@@ -37,3 +37,40 @@ $xxtralarge-width: '1536px';
     @content;
   }
 }
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('~@fontsource/poppins/index.css') format('truetype');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('~@fontsource/poppins/700.css') format('truetype');
+}
+
+h2 {
+    font-family: Poppins;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 1px;
+
+    @include lg {
+      font-size: 24px;
+    }
+}
+
+p {
+    font-family: Poppins;
+    font-weight: 400;
+    font-size: 14px;
+
+    @include lg {
+      font-size: 16px;
+    }
+}

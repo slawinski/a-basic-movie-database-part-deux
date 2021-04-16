@@ -4,7 +4,7 @@
       <img :src="movie.poster" alt="Movie poster" />
     </div>
     <div class="card__details">
-      <div>{{ movie.title }} ({{ movie.year }})</div>
+      <h2 class="card__details-title">{{ movie.title }} ({{ movie.year }})</h2>
       <p>{{ movie.imdbRating }}/10</p>
       <button @click.prevent="handleClick" @keydown="remove(movie)">
         Remove
@@ -32,21 +32,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import './styles/_variables';
+
 .card {
   display: flex;
   gap: 8px;
+  height: 150px;
 
-  &__image {
-    img {
-      width: 100%;
-      height: 75%;
-      object-fit: cover;
-      object-position: 100% 0;
-    }
+  @include lg {
+    height: 256px;
   }
 
-  &__details {
-    flex: 0 0 70%;
+  &__image {
+    flex: 0 0 30%;
+
+    @include lg {
+      flex: 0 0 20%;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 100% 0;
+      border-radius: 15px;
+    }
   }
 }
 </style>
