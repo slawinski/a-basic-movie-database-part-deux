@@ -3,12 +3,7 @@
     <SearchBar @input="submit" />
     <div class="app__list">
       <template v-for="movie in movies">
-        <MovieCard
-          :key="movie.id"
-          :movie="movie"
-          class="app__list-item"
-          @remove="remove"
-        />
+        <MovieCard :key="movie.id" :movie="movie" @remove="remove" />
       </template>
     </div>
   </div>
@@ -120,8 +115,11 @@ export default {
 <style lang="scss" scoped>
 .app {
   &__list {
-    :not(:last-child) {
-      margin-bottom: 8px;
+    padding: 32px 0;
+    margin-left: -48px;
+
+    > :nth-last-child(n + 2) {
+      margin-bottom: 32px;
     }
   }
 }

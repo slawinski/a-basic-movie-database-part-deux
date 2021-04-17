@@ -5,7 +5,7 @@
 </template>
 
 <style scoped lang="scss">
-@import '../styles/_variables.scss';
+@import '~/styles/_variables.scss';
 
 .app {
   margin: 0 8px;
