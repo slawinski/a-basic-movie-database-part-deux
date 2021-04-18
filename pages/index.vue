@@ -26,6 +26,9 @@ export default {
             poster
             plot
             imdbRating
+            genre
+            runtime
+            country
           }
         }
       `,
@@ -42,6 +45,9 @@ export default {
               poster
               plot
               imdbRating
+              genre
+              runtime
+              country
             }
           }
         `,
@@ -93,6 +99,9 @@ export default {
                 poster
                 plot
                 imdbRating
+                genre
+                runtime
+                country
               }
             }
           `,
@@ -103,6 +112,9 @@ export default {
               poster: this.fetchedMovie.data.Poster,
               plot: this.fetchedMovie.data.Plot,
               imdbRating: this.fetchedMovie.data.imdbRating,
+              genre: this.fetchedMovie.data.Genre.split(', ')[0],
+              runtime: this.fetchedMovie.data.Runtime,
+              country: this.fetchedMovie.data.Country,
             },
           },
         });
@@ -113,6 +125,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~/styles/_variables.scss';
+
 .app {
   &__list {
     padding: 32px 0;
@@ -120,6 +134,10 @@ export default {
 
     > :nth-last-child(n + 2) {
       margin-bottom: 32px;
+
+      @include lg {
+        margin-bottom: 48px;
+      }
     }
   }
 }

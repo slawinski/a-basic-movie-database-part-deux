@@ -2,6 +2,7 @@
   <div class="card">
     <div class="card__image">
       <img :src="movie.poster" alt="Movie poster" />
+      <p class="card__details-rating">{{ movie.imdbRating }}/10</p>
     </div>
     <div class="card__details">
       <h2 class="card__details-title">
@@ -9,11 +10,18 @@
           {{ movie.title }}
         </v-clamp>
       </h2>
-      <p>{{ movie.year }}</p>
-      <p>{{ movie.imdbRating }}/10</p>
-      <button @click.prevent="handleClick" @keydown="remove(movie)">
-        Remove
-      </button>
+      <p>{{ movie.genre }}</p>
+      <p>{{ movie.country }}</p>
+      <div class="card__details-bottom-line">
+        <p>{{ movie.year }}</p>
+        <button
+          class="card__details-button"
+          @click.prevent="handleClick"
+          @keydown="remove(movie)"
+        >
+          Remove
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +50,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '~/styles/_variables.scss';
+
+// * {
+//   outline: solid 0.1rem red;
+// }
 
 .card {
   display: flex;
@@ -75,6 +87,34 @@ export default {
     flex: 0 1 100%;
     border-radius: 10px;
     padding: 8px 8px 8px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__details-title {
+    flex-grow: 1;
+  }
+
+  &__details-rating {
+    font-size: 12px;
+    position: relative;
+    left: 10px;
+
+    &:before {
+      content: '⭐';
+    }
+
+    @include lg {
+      font-size: 14px;
+      bottom: -5px;
+    }
+  }
+
+  &__details-bottom-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 

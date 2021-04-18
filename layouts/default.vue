@@ -10,6 +10,11 @@
 .app {
   margin: 0 8px;
 
+  @include sm {
+    margin: auto;
+    width: 500px;
+  }
+
   @include lg {
     margin: auto;
     width: 900px;
