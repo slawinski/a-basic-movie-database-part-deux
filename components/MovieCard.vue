@@ -14,13 +14,7 @@
       <p>{{ movie.country }}</p>
       <div class="card__details-bottom-line">
         <p>{{ movie.year }}</p>
-        <button
-          class="card__details-button"
-          @click.prevent="handleClick"
-          @keydown="remove(movie)"
-        >
-          Remove
-        </button>
+        <DeleteButton @delete="handleClick" />
       </div>
     </div>
   </div>
