@@ -5,7 +5,7 @@
     class="bubbly-button"
     @click.prevent="handleClick"
   >
-    Delete
+    <font-awesome-icon :icon="['far', 'trash-alt']" />
   </button>
 </template>
 
@@ -32,28 +32,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '~/styles/_variables.scss';
+
 $fuschia: #ff0081;
 $button-bg: $fuschia;
 $button-text-color: #fff;
 $baby-blue: #f8faff;
 
 .bubbly-button {
-  // font-family: 'Helvetica', 'Arial', sans-serif;
   display: inline-block;
   font-size: 1em;
-  padding: 0.5em 1em;
-  // margin-top: 100px;
-  // margin-bottom: 60px;
+  padding: 0.2em 1em;
   -webkit-appearance: none;
   appearance: none;
   background-color: $button-bg;
   color: $button-text-color;
-  border-radius: 4px;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
   position: relative;
   transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
   box-shadow: 0 2px 25px rgba(255, 0, 130, 0.5);
+
+  @include lg {
+    font-size: 1.5em;
+  }
 
   &:focus {
     outline: 0;

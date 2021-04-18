@@ -112,7 +112,7 @@ export default {
               poster: this.fetchedMovie.data.Poster,
               plot: this.fetchedMovie.data.Plot,
               imdbRating: this.fetchedMovie.data.imdbRating,
-              genre: this.fetchedMovie.data.Genre.split(', ')[0],
+              genre: this.fetchedMovie.data.Genre,
               runtime: this.fetchedMovie.data.Runtime,
               country: this.fetchedMovie.data.Country,
             },
@@ -131,12 +131,21 @@ export default {
   &__list {
     padding: 32px 0;
     margin-left: -48px;
+    margin-right: -48px;
+
+    @include lg {
+      margin-right: -64px;
+    }
 
     > :nth-last-child(n + 2) {
       margin-bottom: 32px;
 
-      @include lg {
+      @include sm {
         margin-bottom: 48px;
+      }
+
+      @include lg {
+        margin-bottom: 56px;
       }
     }
   }

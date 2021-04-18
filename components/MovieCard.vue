@@ -10,13 +10,21 @@
           {{ movie.title }}
         </v-clamp>
       </h2>
-      <p>{{ movie.genre }}</p>
-      <p>{{ movie.country }}</p>
-      <div class="card__details-bottom-line">
+      <div class="card__details-subtitle">
+        <p>
+          <v-clamp autoresize :max-lines="1">
+            {{ movie.genre }}
+          </v-clamp>
+        </p>
+        <p>
+          <v-clamp autoresize :max-lines="1">
+            {{ movie.country }}
+          </v-clamp>
+        </p>
         <p>{{ movie.year }}</p>
-        <DeleteButton @delete="handleClick" />
       </div>
     </div>
+    <DeleteButton class="card__button" @delete="handleClick" />
   </div>
 </template>
 
@@ -84,6 +92,10 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @include lg {
+      padding: 16px 16px 16px 56px;
+    }
   }
 
   &__details-title {
@@ -105,10 +117,20 @@ export default {
     }
   }
 
-  &__details-bottom-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  &__details-subtitle {
+    width: 80%;
+  }
+
+  &__button {
+    position: relative;
+    right: 48px;
+    bottom: 16px;
+    height: 24%;
+    align-self: flex-end;
+
+    @include lg {
+      right: 64px;
+    }
   }
 }
 
