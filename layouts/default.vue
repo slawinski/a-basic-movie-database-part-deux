@@ -16,7 +16,7 @@
   }
 
   @include lg {
-    margin: auto;
+    margin: 64px auto;
     width: 900px;
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <SearchBar @input="submit" />
     <div class="app__list">
-      <template v-for="movie in movies">
+      <template v-for="movie in movies.slice().reverse()">
         <MovieCard :key="movie.id" :movie="movie" @remove="remove" />
       </template>
     </div>
@@ -135,6 +135,7 @@ export default {
 
     @include lg {
       margin-right: -64px;
+      padding: 64px 0;
     }
 
     > :nth-last-child(n + 2) {
