@@ -11,46 +11,21 @@
 
 <script>
 import axios from 'axios';
-import gql from 'graphql-tag';
+import getMovies from '@/apollo/getMovies.gql';
+import addMovie from '@/apollo/addMovie.gql';
+import deleteMovie from '@/apollo/deleteMovie.gql';
+import mySubscription from '@/apollo/mySubscription.gql';
 
 export default {
   name: 'Home',
   apollo: {
     movies: {
-      query: gql`
-        query getMovies {
-          movies {
-            id
-            title
-            year
-            poster
-            plot
-            imdbRating
-            genre
-            runtime
-            country
-          }
-        }
-      `,
+      query: getMovies,
       update(data) {
         return data.movies;
       },
       subscribeToMore: {
-        document: gql`
-          subscription mySubscription {
-            movies {
-              id
-              title
-              year
-              poster
-              plot
-              imdbRating
-              genre
-              runtime
-              country
-            }
-          }
-        `,
+        document: mySubscription,
         updateQuery: (previousResult, { subscriptionData }) => {
           return subscriptionData.data;
         },
@@ -66,45 +41,19 @@ export default {
   methods: {
     remove(movie) {
       this.$apollo.mutate({
-        mutation: gql`
-          mutation MyQuery($id: uuid!) {
-            delete_movies(where: { id: { _eq: $id } }) {
-              affected_rows
-            }
-          }
-        `,
+        mutation: deleteMovie,
         variables: {
           id: movie.id,
         },
       });
     },
     async submit(movie) {
-      let result = null;
       try {
-        result = await axios.get(
+        this.fetchedMovie = await axios.get(
           `https://www.omdbapi.com/?apikey=869369bc&t=${movie}`,
         );
-      } catch (err) {
-        console.error(err);
-      } finally {
-        movie = null;
-        this.fetchedMovie = result;
         await this.$apollo.mutate({
-          mutation: gql`
-            mutation addMovie($movie: movies_insert_input!) {
-              insert_movies_one(object: $movie) {
-                id
-                title
-                year
-                poster
-                plot
-                imdbRating
-                genre
-                runtime
-                country
-              }
-            }
-          `,
+          mutation: addMovie,
           variables: {
             movie: {
               title: this.fetchedMovie.data.Title,
@@ -118,6 +67,8 @@ export default {
             },
           },
         });
+      } catch (err) {
+        console.log(err);
       }
     },
   },

@@ -1,0 +1,13 @@
+query getMovies {
+  movies {
+    id
+    title
+    year
+    poster
+    plot
+    imdbRating
+    genre
+    runtime
+    country
+  }
+}
