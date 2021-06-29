@@ -88,13 +88,13 @@ export default {
   &__details {
     flex: 0 1 100%;
     border-radius: 10px;
-    padding: 8px 8px 8px 48px;
+    padding: 16px 16px 16px 48px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     @include lg {
-      padding: 16px 16px 16px 56px;
+      padding: 32px 32px 32px 64px;
     }
   }
 
@@ -105,7 +105,8 @@ export default {
   &__details-rating {
     font-size: 12px;
     position: relative;
-    left: 10px;
+    left: 16px;
+    bottom: -3px;
 
     &:before {
       content: '⭐';
