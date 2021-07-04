@@ -48,10 +48,9 @@ export default {
       });
     },
     async submit(movie) {
+      const API_URL = `https://www.omdbapi.com/?apikey=${process.env.SECRET_KEY}&t=${movie}`;
       try {
-        this.fetchedMovie = await axios.get(
-          `https://www.omdbapi.com/?apikey=869369bc&t=${movie}`,
-        );
+        this.fetchedMovie = await axios.get(API_URL);
         await this.$apollo.mutate({
           mutation: addMovie,
           variables: {
