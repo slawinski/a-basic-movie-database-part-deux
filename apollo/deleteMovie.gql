@@ -1,0 +1,5 @@
+mutation deleteMovie($id: uuid!) {
+  delete_movies(where: { id: { _eq: $id } }) {
+    affected_rows
+  }
+}

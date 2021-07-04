@@ -23,19 +23,17 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@fortawesome/fontawesome-svg-core/styles.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/fontawesome.js'],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
-    // Doc: https://github.com/nuxt-community/nuxt-tailwindcss
-    '@nuxtjs/tailwindcss',
   ],
   /*
    ** Nuxt.js modules
@@ -44,6 +42,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/apollo',
+    '@nuxtjs/dotenv',
   ],
   /*
    ** Axios module configuration
@@ -66,5 +65,10 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {},
+  },
+  components: true,
+  server: {
+    port: 8000, // default: 3000
+    host: '0.0.0.0', // default: localhost
   },
 };

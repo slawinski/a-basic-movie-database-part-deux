@@ -1,0 +1,13 @@
+mutation addMovie($movie: movies_insert_input!) {
+  insert_movies_one(object: $movie) {
+    id
+    title
+    year
+    poster
+    plot
+    imdbRating
+    genre
+    runtime
+    country
+  }
+}

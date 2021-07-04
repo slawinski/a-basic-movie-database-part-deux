@@ -1,94 +1,31 @@
 <template>
   <div>
-    <div>
-      <h1 class="text-2xl">
-        a-basic-movie-database-part-deux
-      </h1>
-      <form>
-        <input
-          v-model="lookupMovie"
-          type="text"
-          class="py-1 px-3 shadow appearance-none border rounded font-body text-xl text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          placeholder="Enter movie title"
-          aria-label="Movie title"
-          required
-        />
-        <button
-          type="submit"
-          class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-          @click.prevent="submit"
-          @keydown="submit"
-        >
-          Submit
-        </button>
-      </form>
-      <div class="flex flex-wrap">
-        <div v-for="movie in movies" :key="movie.id" class="m-4">
-          <div
-            class="w-64 h-full flex flex-col justify-between rounded overflow-hidden shadow-lg"
-          >
-            <div>
-              <img
-                class="w-full object-cover"
-                :src="movie.poster"
-                alt="Movie poster"
-              />
-            </div>
-            <div class="px-6 py-4">
-              <div class="mb-4 font-bold text-xl truncate">
-                {{ movie.title }} ({{ movie.year }})
-              </div>
-              <p class="mb-4 h-32 text-gray-700 text-base overflow-auto">
-                {{ movie.plot }}
-              </p>
-              <button
-                class="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
-                @click.prevent="remove(movie)"
-                @keydown="remove(movie)"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <SearchBar @input="submit" />
+    <div class="app__list">
+      <template v-for="movie in movies.slice().reverse()">
+        <MovieCard :key="movie.id" :movie="movie" @remove="remove" />
+      </template>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import gql from 'graphql-tag';
+import getMovies from '@/apollo/getMovies.gql';
+import addMovie from '@/apollo/addMovie.gql';
+import deleteMovie from '@/apollo/deleteMovie.gql';
+import mySubscription from '@/apollo/mySubscription.gql';
 
 export default {
+  name: 'Home',
   apollo: {
     movies: {
-      query: gql`
-        query getMovies {
-          movies {
-            id
-            title
-            year
-            poster
-            plot
-          }
-        }
-      `,
+      query: getMovies,
       update(data) {
         return data.movies;
       },
       subscribeToMore: {
-        document: gql`
-          subscription mySubscription {
-            movies {
-              id
-              title
-              year
-              poster
-              plot
-            }
-          }
-        `,
+        document: mySubscription,
         updateQuery: (previousResult, { subscriptionData }) => {
           return subscriptionData.data;
         },
@@ -97,7 +34,6 @@ export default {
   },
   data() {
     return {
-      lookupMovie: null,
       fetchedMovie: null,
       movies: null,
     };
@@ -105,52 +41,64 @@ export default {
   methods: {
     remove(movie) {
       this.$apollo.mutate({
-        mutation: gql`
-          mutation MyQuery($id: uuid!) {
-            delete_movies(where: { id: { _eq: $id } }) {
-              affected_rows
-            }
-          }
-        `,
+        mutation: deleteMovie,
         variables: {
           id: movie.id,
         },
       });
     },
-    async submit() {
-      let result = null;
+    async submit(movie) {
+      const API_URL = `https://www.omdbapi.com/?apikey=${process.env.SECRET_KEY}&t=${movie}`;
       try {
-        result = await axios.get(
-          `https://www.omdbapi.com/?apikey=869369bc&t=${this.lookupMovie}`,
-        );
-      } catch (err) {
-        console.error(err);
-      } finally {
-        this.lookupMovie = null;
-        this.fetchedMovie = result;
+        this.fetchedMovie = await axios.get(API_URL);
         await this.$apollo.mutate({
-          mutation: gql`
-            mutation addMovie($movie: movies_insert_input!) {
-              insert_movies_one(object: $movie) {
-                id
-                title
-                year
-                poster
-                plot
-              }
-            }
-          `,
+          mutation: addMovie,
           variables: {
             movie: {
               title: this.fetchedMovie.data.Title,
               year: this.fetchedMovie.data.Year,
               poster: this.fetchedMovie.data.Poster,
               plot: this.fetchedMovie.data.Plot,
+              imdbRating: this.fetchedMovie.data.imdbRating,
+              genre: this.fetchedMovie.data.Genre,
+              runtime: this.fetchedMovie.data.Runtime,
+              country: this.fetchedMovie.data.Country,
             },
           },
         });
+      } catch (err) {
+        alert(err);
       }
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+@import '~/styles/_variables.scss';
+
+.app {
+  &__list {
+    padding: 32px 0;
+    margin-left: -48px;
+    margin-right: -48px;
+
+    @include lg {
+      margin-right: -64px;
+      padding: 64px 0;
+    }
+
+    > :nth-last-child(n + 2) {
+      margin-bottom: 32px;
+
+      @include sm {
+        margin-bottom: 48px;
+      }
+
+      @include lg {
+        margin-bottom: 56px;
+      }
+    }
+  }
+}
+</style>
